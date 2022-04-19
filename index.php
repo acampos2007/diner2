@@ -17,7 +17,26 @@ $f3->route('GET /', function()
     $view = new Template();
     echo $view->render('views/home.html');
     //echo '<h1>My Diner 2</h1>';
-    //echo '<h1>Hello, World!</h1>';
+}
+);
+
+//Define a breakfast route
+$f3->route('GET /breakfast', function()
+{
+    $view = new Template();
+    echo $view->render('views/breakfast.html');
+    //echo '<h1>Breakfast Page</h1>';
+
+}
+);
+
+//Define a lunch route
+$f3->route('GET /lunch', function()
+{
+    $view = new Template();
+    echo $view->render('views/lunch.html');
+    //echo '<h1>Breakfast Page</h1>';
+
 }
 );
 
