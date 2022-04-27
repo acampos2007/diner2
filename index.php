@@ -50,5 +50,14 @@ $f3->route('GET /dinner', function()
 }
 );
 
+//Define a order route
+$f3->route('GET /order', function()
+{
+    $view = new Template();
+    echo $view->render('views/orderForm1.html');
+    //echo '<h1>Order Page</h1>';
+}
+);
+
 //Run fat free
 $f3->run();

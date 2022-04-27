@@ -5,7 +5,7 @@
     border: none;
 }
 
-btn-primary:hover
+button.btn.btn-primary:hover
 {
     background-color: aquamarine !important;
 }
