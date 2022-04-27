@@ -4,6 +4,9 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+//Start a session
+session_start();
+
 //Require the autoload file
 require_once('vendor/autoload.php');
 
@@ -63,6 +66,10 @@ $f3->route('GET /order', function()
 $f3->route('POST /order2', function()
 {
     //var_dump ($_POST);
+    //move orderForm1 data from POST to SESSION
+    $_SESSION['food'] = $_POST['food'];
+    $_SESSION['meal'] = $_POST['meal'];
+
     $view = new Template();
     echo $view->render('views/orderForm2.html');
     //echo '<h1>Order Page</h1>';
@@ -72,6 +79,20 @@ $f3->route('POST /order2', function()
 //Define a order2 route
 $f3->route('POST /summary', function()
 {
+    //var_dump ($_POST);
+    if(empty($_POST['conds']))
+    {
+        $conds = "none selected";
+    }
+    else
+    {
+        $conds = implode(", ", $_POST['conds']);
+    }
+    $_SESSION['conds'] = $conds;
+
+    //before changing to above if statement:
+    //$_SESSION['conds'] = implode(", ", $_POST['conds']);
+
     $view = new Template();
     echo $view->render('views/orderSummary.html');
     //echo '<h1>Order Page</h1>';
