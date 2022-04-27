@@ -59,5 +59,24 @@ $f3->route('GET /order', function()
 }
 );
 
+//Define a order2 route
+$f3->route('POST /order2', function()
+{
+    //var_dump ($_POST);
+    $view = new Template();
+    echo $view->render('views/orderForm2.html');
+    //echo '<h1>Order Page</h1>';
+}
+);
+
+//Define a order2 route
+$f3->route('POST /summary', function()
+{
+    $view = new Template();
+    echo $view->render('views/orderSummary.html');
+    //echo '<h1>Order Page</h1>';
+}
+);
+
 //Run fat free
 $f3->run();
