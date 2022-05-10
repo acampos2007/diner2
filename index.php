@@ -16,7 +16,7 @@ $f3 = Base::instance();
 //echo gettype($f3);
 
 //Define a default route
-$f3->route('GET /', function()
+$f3->route('GET|POST /', function()
 {
     $view = new Template();
     echo $view->render('views/home.html');
@@ -25,7 +25,7 @@ $f3->route('GET /', function()
 );
 
 //Define a breakfast route
-$f3->route('GET /breakfast', function()
+$f3->route('GET|POST /breakfast', function()
 {
     $view = new Template();
     echo $view->render('views/breakfast.html');
@@ -35,7 +35,7 @@ $f3->route('GET /breakfast', function()
 );
 
 //Define a lunch route
-$f3->route('GET /lunch', function()
+$f3->route('GET|POST /lunch', function()
 {
     $view = new Template();
     echo $view->render('views/lunch.html');
@@ -45,7 +45,7 @@ $f3->route('GET /lunch', function()
 );
 
 //Define a dinner route
-$f3->route('GET /dinner', function()
+$f3->route('GET|POST /dinner', function()
 {
     $view = new Template();
     echo $view->render('views/dinner.html');
@@ -55,7 +55,7 @@ $f3->route('GET /dinner', function()
 );
 
 //Define a order route
-$f3->route('GET /order', function($f3)
+$f3->route('GET|POST /order', function($f3)
 {
     //add meal data to hive
     $f3->set('meals', getMeals());
@@ -67,7 +67,7 @@ $f3->route('GET /order', function($f3)
 );
 
 //Define a order2 route
-$f3->route('POST /order2', function($f3)
+$f3->route('POST|GET /order2', function($f3)
 {
     //var_dump ($_POST);
     //move orderForm1 data from POST to SESSION
@@ -84,7 +84,7 @@ $f3->route('POST /order2', function($f3)
 );
 
 //Define a order2 route
-$f3->route('POST /summary', function()
+$f3->route('POST|GET /summary', function()
 {
     //var_dump ($_POST);
     if(empty($_POST['conds']))
