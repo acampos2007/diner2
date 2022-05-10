@@ -10,6 +10,7 @@ session_start();
 //Require the necessary autoload file
 require_once('vendor/autoload.php');
 require_once ('model/data-layer.php');
+require_once ('model/validation.php');
 
 //Create an instance of the Base Class
 $f3 = Base::instance();
@@ -57,6 +58,27 @@ $f3->route('GET|POST /dinner', function()
 //Define a order route
 $f3->route('GET|POST /order', function($f3)
 {
+    //if the form has been submitted
+    if($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+        //get food from POST array
+        $food = $_POST['food'];
+
+        //if data is valid
+        if(validFood($food))
+        {
+            $_SESSION['food'] = $food;
+            header('location: order2');
+        }
+        //if data is not valid -> store an error message
+        else
+        {
+            $f3->set('errors["food"]', 'Please enter a food, at least 2 characters');
+        }
+
+        $_SESSION['meal'] = $_POST['meal'];
+    }
+
     //add meal data to hive
     $f3->set('meals', getMeals());
 
@@ -70,9 +92,6 @@ $f3->route('GET|POST /order', function($f3)
 $f3->route('POST|GET /order2', function($f3)
 {
     //var_dump ($_POST);
-    //move orderForm1 data from POST to SESSION
-    $_SESSION['food'] = $_POST['food'];
-    $_SESSION['meal'] = $_POST['meal'];
 
     //add condiment data to hive
     $f3->set('condiments', getCondiments());
