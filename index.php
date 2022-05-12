@@ -76,6 +76,9 @@ $f3->route('GET|POST /order', function($f3)
         //option 2
         //$meal = isset($_POST['meal']) ? $_POST['meal'] : "";
 
+        //add the users meal to the hive
+        $f3->set('userMeal', $meal);
+
         //if data is valid
         if(validFood($food))
         {

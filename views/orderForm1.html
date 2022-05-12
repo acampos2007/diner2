@@ -24,7 +24,13 @@
             <label class="col-sm-4 control-label">Select a Meal:</label>
             <div class="col-sm-4">
                 <repeat group="{{ @meals }}" value="{{ @meal }}">
-                    <label><input type="radio" name="meal" value="{{ @meal }}"> {{ ucfirst(@meal) }}</label><br>
+                    <label><input type="radio" name="meal" value="{{ @meal }}"
+                        <check if="{{ @meal == @userMeal }}">
+                            checked="checked"
+                        </check>
+
+                        >
+                        {{ ucfirst(@meal) }}</label><br>
                 </repeat>
                 <!--<label><input type="radio" name="meal" value="breakfast"> Breakfast</label><br>
                 <label><input type="radio" name="meal" value="lunch"> Lunch</label><br>
