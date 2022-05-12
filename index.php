@@ -63,12 +63,24 @@ $f3->route('GET|POST /order', function($f3)
     {
         //get food from POST array
         $food = $_POST['food'];
+        $f3->set('userFood', $food);
+
+        //get meal from POST array
+        //option 1
+        $meal = "";
+        if(isset($_POST['meal']))
+        {
+            $meal = $_POST['meal'];
+        }
+
+        //option 2
+        //$meal = isset($_POST['meal']) ? $_POST['meal'] : "";
 
         //if data is valid
         if(validFood($food))
         {
+            //store in session array
             $_SESSION['food'] = $food;
-            header('location: order2');
         }
         //if data is not valid -> store an error message
         else
@@ -76,7 +88,23 @@ $f3->route('GET|POST /order', function($f3)
             $f3->set('errors["food"]', 'Please enter a food, at least 2 characters');
         }
 
-        $_SESSION['meal'] = $_POST['meal'];
+        if (validMeal($meal))
+        {
+            //store in session array
+            $_SESSION['meal'] = $meal;
+            //$_SESSION['meal'] = $_POST['meal'];
+        }
+        //if data is not valid -> store an error message
+        else
+        {
+            $f3->set('errors["meal"]', 'Please select a meal');
+        }
+
+        //redirect to order2 route if there are no errors
+        if (empty($f3->get('errors')))
+        {
+            header('location: order2');
+        }
     }
 
     //add meal data to hive

@@ -8,7 +8,7 @@
 
         <!-- get condiments -->
         <div class="form-group">
-            <label class="col-sm-2 control-label">Select condiments</label>
+            <label class="col-sm-2 control-label">Select Condiments:</label>
             <div class="col-sm-4">
                 <repeat group="{{ @condiments }}" value="{{ @cond }}">
                     <label><input type="checkbox" name="conds[]" value="{{ @cond }}"> {{ ucfirst(@cond) }}</label><br>

@@ -17,3 +17,8 @@ function validFood($food)
     //shortcut way to do the above
     return strlen(trim($food)) >= 2;
 }
+
+function validMeal($meal)
+{
+    return in_array($meal, getMeals());
+}
