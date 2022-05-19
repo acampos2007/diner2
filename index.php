@@ -4,13 +4,21 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-//Start a session
-session_start();
-
 //Require the necessary autoload file
 require_once('vendor/autoload.php');
 require_once ('model/data-layer.php');
 require_once ('model/validation.php');
+require_once ('classes/order.php');
+
+//Start a session-has to come before any HTML OUTPUT
+session_start();
+
+//Test Order Class
+/*$order = new Order();
+$order->setFood("tacos");
+$order->setMeal("lunch");
+$order->setCondiments("salsa, guacamole");
+var_dump($order);*/
 
 //Create an instance of the Base Class
 $f3 = Base::instance();
@@ -82,30 +90,34 @@ $f3->route('GET|POST /order', function($f3)
         //if data is valid
         if(validFood($food))
         {
-            //store in session array
-            $_SESSION['food'] = $food;
+            //create a bew Irder object
+            $order = new Order();
+
+            //Add the food to the order
+            $order->setFood($food);
+
+            //store the order in session array
+            $_SESSION['order'] = $order;
+            //$_SESSION['food'] = $food;
         }
         //if data is not valid -> store an error message
-        else
-        {
+        else {
             $f3->set('errors["food"]', 'Please enter a food, at least 2 characters');
         }
 
-        if (validMeal($meal))
-        {
+        if (validMeal($meal)) {
             //store in session array
-            $_SESSION['meal'] = $meal;
+            $_SESSION['order']->setMeal($meal);
+            //$_SESSION['meal'] = $meal;
             //$_SESSION['meal'] = $_POST['meal'];
         }
         //if data is not valid -> store an error message
-        else
-        {
+        else {
             $f3->set('errors["meal"]', 'Please select a meal');
         }
 
         //redirect to order2 route if there are no errors
-        if (empty($f3->get('errors')))
-        {
+        if (empty($f3->get('errors'))) {
             header('location: order2');
         }
     }
@@ -120,12 +132,26 @@ $f3->route('GET|POST /order', function($f3)
 );
 
 //Define a order2 route
-$f3->route('POST|GET /order2', function($f3)
-{
+$f3->route('GET|POST /order2', function($f3) {
     //var_dump ($_POST);
 
     //add condiment data to hive
     $f3->set('condiments', getCondiments());
+
+    if($_SERVER['REQUEST_METHOD'] == 'POST')
+    {
+        $conds = "";
+        if(empty($_POST['conds'])) {
+            $conds = "none selected";
+        }
+        else {
+            $conds = implode(", ", $_POST['conds']);
+        }
+        $_SESSION['order']->setCondiments($conds);
+        //$_SESSION['conds'] = $conds;
+
+        header("location: summary");
+    }
 
     $view = new Template();
     echo $view->render('views/orderForm2.html');
@@ -134,18 +160,11 @@ $f3->route('POST|GET /order2', function($f3)
 );
 
 //Define a order2 route
-$f3->route('POST|GET /summary', function()
-{
+$f3->route('POST|GET /summary', function() {
     //var_dump ($_POST);
-    if(empty($_POST['conds']))
-    {
-        $conds = "none selected";
-    }
-    else
-    {
-        $conds = implode(", ", $_POST['conds']);
-    }
-    $_SESSION['conds'] = $conds;
+    /*echo "<pre>";
+    var_dump($_SESSION);
+    echo "</pre>";*/
 
     //before changing to above if statement:
     //$_SESSION['conds'] = implode(", ", $_POST['conds']);
@@ -153,6 +172,9 @@ $f3->route('POST|GET /summary', function()
     $view = new Template();
     echo $view->render('views/orderSummary.html');
     //echo '<h1>Order Page</h1>';
+
+    //end session
+    //session_destroy();
 }
 );
 
