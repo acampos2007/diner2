@@ -1,15 +1,16 @@
 {
   "name": "acamposg/328sdev/diner2",
-  "authors":
-  [
+  "authors": [
     {
       "name": "Angel Campos",
       "email": "campos.angel@student.greenriver.edu"
     }
   ],
-  "require":
-  {
+  "require": {
     "bcosca/fatfree-core": "dev-master"
+  },
+  "autoload": {
+    "classmap": ["classes/", "model/", "controllers/"]
   }
 
 }

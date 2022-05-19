@@ -4,13 +4,20 @@
  * Returns data for the diner app
  */
 
-//define a function to get the meals for the order form
-function getMeals()
+//turned data-layer into a class DataLayer{}
+class DataLayer
 {
-    return array("breakfast","brunch", "lunch", "dinner");
-}
+    //added static- static methods do not access instance data (fields)
 
-function getCondiments()
-{
-    return array("ketchup", "mayo", "mustard", "sriracha", "soy sauce");
+    //define a function to get the meals for the order form
+    static function getMeals()
+    {
+        return array("Breakfast", "Brunch", "Lunch", "Dinner");
+    }
+
+    //define a function to get the condiments for the order form
+    static function getCondiments()
+    {
+        return array("Ketchup", "Mayo", "Mustard", "Sriracha", "Soy Sauce", "Salsa");
+    }
 }

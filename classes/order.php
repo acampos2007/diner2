@@ -1,5 +1,7 @@
 <?php
-
+/*
+328sdev/diner2/classes/order.php
+*/
 //TODO: Add a description to each method(php docs)
 
 class Order
