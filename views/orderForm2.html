@@ -13,6 +13,10 @@
                 <repeat group="{{ @condiments }}" value="{{ @cond }}">
                     <label><input type="checkbox" name="conds[]" value="{{ @cond }}"> {{ ucfirst(@cond) }}</label><br>
                 </repeat>
+                <!--Display error if there is one-->
+                <check if="{{ isset(@errors['cond']) }}">
+                    <span class="text-danger">{{ @errors['cond'] }}</span>
+                </check>
                 <!--<label><input type="checkbox" name="conds[]" value="ketchup"> Ketchup</label><br>
                 <label><input type="checkbox" name="conds[]" value="mayo"> Mayo</label><br>
                 <label><input type="checkbox" name="conds[]" value="mustard"> Mustard</label><br>

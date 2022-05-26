@@ -84,34 +84,62 @@ class Controller
     function order2(){
         //add condiment data to hive
         //$f3->set('condiments', getCondiments());
-        $this->_f3->set('condiments', DataLayer::getCondiments());
+        //$this->_f3->set('condiments', DataLayer::getCondiments());
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST')
-        {
+        if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $conds = "";
+
+            //condiments not required
             if(empty($_POST['conds'])) {
                 $conds = "none selected";
             }
+            //user selected condiments
             else {
-                $conds = implode(", ", $_POST['conds']);
-            }
-            $_SESSION['order']->setCondiments($conds);
-            //$_SESSION['conds'] = $conds;
+                //get condiments from post array
+                $userConds = $_POST['conds'];
 
-            header("location: summary");
+                //if condiments are valid, convert to string
+                if (Validation::validConds($userConds)) {
+                    $conds = implode(", ", $userConds);
+                } else {
+                    $this->_f3->set('errors["cond"]', 'You spoofed me!');
+                }
+            }
+            //if there are no errors
+        if (empty($this->_f3->get('errors')))
+        {
+            //add condiment string to session array
+            $_SESSION['order']->setCondiments($conds);
+
+            //redirect
+            header('location:summary');
+            //$this->_f3->set('errors["cond"]');
+        }
         }
 
+        //add condiment data to hive
+        $this->_f3->set('condiments', DataLayer::getCondiments());
+
+        //display order2 form
         $view = new Template();
         echo $view->render('views/orderForm2.html');
 
     }
 
     function summary(){
-        //before changing to above if statement:
+        /*
+         * echo "<pre>";
+         * var_dump ($_SESSION);
+         * echo "</pre>";
+         */
 
         //$_SESSION['conds'] = implode(", ", $_POST['conds']);
 
+        //display summary page
         $view = new Template();
         echo $view->render('views/orderSummary.html');
+
+        //end session
+        session_destroy();
     }
 }
